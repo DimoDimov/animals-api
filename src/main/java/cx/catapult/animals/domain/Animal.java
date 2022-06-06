@@ -6,14 +6,19 @@ public interface Animal {
 
     void setId(String id);
 
-    String getName();
+    String getColour();
 
-    void setName(String name);
+    void setColour(String colour);
 
     String getDescription();
 
     void setDescription(String description);
 
-    Group getGroup();
+    AnimalType getType();
+    
+    void setType(AnimalType type);
 
+    String getName();
+
+    void setName(String name);
 }

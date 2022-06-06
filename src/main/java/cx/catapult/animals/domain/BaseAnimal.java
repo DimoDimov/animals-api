@@ -5,19 +5,25 @@ import java.io.Serializable;
 public class BaseAnimal implements Animal, Serializable {
 
     private String id;
-    private String name;
+    private String colour;
     private String description;
-    private Group group;
+    private AnimalType type;
+    private String name;
 
-    public BaseAnimal(String name, String description, Group group) {
-        this(null, name, description, group);
+    public BaseAnimal() {
+        this("", "", "", "", AnimalType.MAMMALS);
     }
 
-    public BaseAnimal(String id, String name, String description, Group group) {
+    public BaseAnimal(String colour, String description, String name, AnimalType type) {
+        this(null, colour, description, name, type);
+    }
+
+    public BaseAnimal(String id, String colour, String description, String name, AnimalType type) {
         this.id = id;
-        this.name = name;
+        this.colour = colour;
         this.description = description;
-        this.group = group;
+        this.type = type;
+        this.name = name;
     }
 
     @Override
@@ -31,13 +37,13 @@ public class BaseAnimal implements Animal, Serializable {
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public String getColour() {
+        return this.colour;
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
+    public void setColour(String colour) {
+        this.colour = colour;
     }
 
     @Override
@@ -51,7 +57,22 @@ public class BaseAnimal implements Animal, Serializable {
     }
 
     @Override
-    public Group getGroup() {
-        return this.group;
+    public AnimalType getType() {
+        return this.type;
+    }
+
+    @Override
+    public void setType(AnimalType type) {
+        this.type = type;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 }
