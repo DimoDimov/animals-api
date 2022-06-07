@@ -1,5 +1,6 @@
 package cx.catapult.animals.web;
 
+import cx.catapult.animals.domain.AnimalType;
 import cx.catapult.animals.domain.BaseAnimal;
 import cx.catapult.animals.service.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,12 @@ public class AnimalController {
     public @ResponseBody
     BaseAnimal get(@PathVariable String id) {
         return service.get(id);
+    }
+    
+    @GetMapping(value = "/types")
+    public @ResponseBody
+    AnimalType[] allTypes() {
+        return AnimalType.values();
     }
     
     @DeleteMapping(value = "/{id}")
