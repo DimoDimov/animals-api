@@ -24,7 +24,6 @@ public class AnimalService extends BaseService<BaseAnimal> {
         this.create(new Mouse("Brown", "Not really a cat", "Jerry"));
         this.create(new Bird("Black", "A smart bird", "Crow"));
         this.create(new Bird("Black and white", "A not so smart bird", "Ostrich"));
-
     }
 
 }

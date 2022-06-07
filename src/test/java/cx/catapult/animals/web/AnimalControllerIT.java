@@ -57,6 +57,18 @@ public class AnimalControllerIT {
         assertThat(response.getBody()).isNotEmpty();
     }
 
+    @Test
+    public void deleteShouldWork() throws Exception {
+        Cat created = createCat("Test 1");
+        ResponseEntity<String> responseGet = template.getForEntity(base.toString() + "/" + created.getId(), String.class);
+        assertThat(responseGet.getBody()).isNotEmpty();
+        
+        template.delete(base.toString() + "/" + created.getId());
+        
+        ResponseEntity<String> responseGetAfterDelete = template.getForEntity(base.toString() + "/" + created.getId(), String.class);
+        assertThat(responseGetAfterDelete.getBody()).isEmpty();
+    }
+
     Cat createCat(String name) {
         Cat created = template.postForObject(base.toString(), new Cat(name, name, name), Cat.class);
         assertThat(created.getId()).isNotEmpty();
