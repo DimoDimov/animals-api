@@ -22,17 +22,17 @@ public class AnimalController {
     Collection<BaseAnimal> all() {
         return service.all();
     }
-
-    @GetMapping(value = "/{id}")
-    public @ResponseBody
-    BaseAnimal get(@PathVariable String id) {
-        return service.get(id);
-    }
     
     @GetMapping(value = "/types")
     public @ResponseBody
     AnimalType[] allTypes() {
         return AnimalType.values();
+    }
+
+    @GetMapping(value = "/{id}")
+    public @ResponseBody
+    BaseAnimal get(@PathVariable String id) {
+        return service.get(id);
     }
     
     @DeleteMapping(value = "/{id}")
@@ -48,5 +48,12 @@ public class AnimalController {
     BaseAnimal
     create(@RequestBody BaseAnimal animal) {
         return service.create(animal);
+    }
+    
+    @GetMapping(value = "/query/{query}")
+    public @ResponseBody
+    Collection<BaseAnimal>
+    filter(@PathVariable String query) {
+        return service.filter(query);
     }
 }

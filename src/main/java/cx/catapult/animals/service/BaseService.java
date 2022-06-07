@@ -3,6 +3,7 @@ package cx.catapult.animals.service;
 import cx.catapult.animals.domain.Animal;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class BaseService<T extends Animal> implements Service<T> {
 
@@ -31,9 +32,21 @@ public abstract class BaseService<T extends Animal> implements Service<T> {
         try {
             items.remove(id);
             return true;
-          }
-          catch(Exception e) {
-              return false;
-          }
+        } catch (Exception e) {
+            return false;
+        }
     }
+    
+    @Override
+    public Collection<T> filter(String query) {
+        String queryLowered = query.toLowerCase();
+        return items.values().stream()
+                .filter(i -> i.getColour().toLowerCase().contains(queryLowered)
+                        || i.getColour().toLowerCase().contains(queryLowered)
+                        || i.getName().toLowerCase().contains(queryLowered)
+                        || i.getColour().toLowerCase().contains(queryLowered)
+                        || i.getType().toString().toLowerCase().contains(queryLowered)
+                        ).collect(Collectors.toList());
+    }
+
 }

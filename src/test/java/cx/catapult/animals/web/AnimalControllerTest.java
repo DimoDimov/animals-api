@@ -50,7 +50,14 @@ public class AnimalControllerTest {
     
     @Test
     public void delete() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.delete("/api/1/animals/123").content(json).contentType(MediaType.APPLICATION_JSON_VALUE))
+        mvc.perform(MockMvcRequestBuilders.delete("/api/1/animals/123").content(json)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk());
+    }
+    
+    @Test
+    public void filter() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/api/1/animals/query/black"))
                 .andExpect(status().isOk());
     }
     
