@@ -27,6 +27,13 @@ public class AnimalController {
     BaseAnimal get(@PathVariable String id) {
         return service.get(id);
     }
+    
+    @DeleteMapping(value = "/{id}")
+    public @ResponseBody
+    Boolean 
+    remove(@PathVariable String id) {
+        return service.deleteById(id);
+    }
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
