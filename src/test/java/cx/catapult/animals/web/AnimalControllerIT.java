@@ -60,13 +60,38 @@ public class AnimalControllerIT {
     @Test
     public void deleteShouldWork() throws Exception {
         Cat created = createCat("Test 1");
+        ResponseEntity<String> responseGet = template.getForEntity(base.toString() + "/" + created.getId(),
+                String.class);
+        assertThat(responseGet.getBody()).isNotEmpty();
+
+        template.delete(base.toString() + "/" + created.getId());
+
+        ResponseEntity<String> responseGetAfterDelete = template.getForEntity(base.toString() + "/" + created.getId(),
+                String.class);
+        assertThat(responseGetAfterDelete.getBody()).isEmpty();
+    }
+    
+    @Test
+    public void filterShouldWork() throws Exception {
+        Cat created = createCat("Test 1");
         ResponseEntity<String> responseGet = template.getForEntity(base.toString() + "/" + created.getId(), String.class);
         assertThat(responseGet.getBody()).isNotEmpty();
         
-        template.delete(base.toString() + "/" + created.getId());
+        Collection itemsGetColour = template.getForObject(base.toString() + "/query/" + created.getColour(),
+                Collection.class);
+        assertThat(itemsGetColour.size()).isGreaterThanOrEqualTo(1);
         
-        ResponseEntity<String> responseGetAfterDelete = template.getForEntity(base.toString() + "/" + created.getId(), String.class);
-        assertThat(responseGetAfterDelete.getBody()).isEmpty();
+        Collection itemsGetName = template.getForObject(base.toString() + "/query/" + created.getName(), Collection.class);
+        assertThat(itemsGetName.size()).isGreaterThanOrEqualTo(1);
+        
+        Collection itemsGetType = template.getForObject(base.toString() + "/query/" + created.getType().toString(), Collection.class);
+        assertThat(itemsGetType.size()).isGreaterThanOrEqualTo(1);
+        
+        Collection itemsGetDescription = template.getForObject(base.toString() + "/query/" + created.getDescription(), Collection.class);
+        assertThat(itemsGetDescription.size()).isGreaterThanOrEqualTo(1);
+        
+        Collection itemsGetNonExisting = template.getForObject(base.toString() + "/query/somethingelse", Collection.class);
+        assertThat(itemsGetNonExisting.size()).isEqualTo(0);
     }
 
     Cat createCat(String name) {
