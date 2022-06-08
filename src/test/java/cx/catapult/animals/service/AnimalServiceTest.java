@@ -2,22 +2,19 @@ package cx.catapult.animals.service;
 
 import cx.catapult.animals.domain.AnimalType;
 import cx.catapult.animals.domain.BaseAnimal;
-import cx.catapult.animals.domain.Bird;
-import cx.catapult.animals.domain.Cat;
-import cx.catapult.animals.domain.Mouse;
 
 import org.junit.jupiter.api.Test;
-
+import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AnimalServiceTest {
 
     AnimalService service = new AnimalService();
-    BaseAnimal cat = new Cat("Brown", "Tom", "Bob cat");
+    BaseAnimal cat = new BaseAnimal("Brown", "Tom", "Bob cat", AnimalType.MAMMALS);
 
     @Test
-    public void createShouldWorkForMouse() throws Exception {
-        BaseAnimal thisMouse = new Mouse();
+    public void createShouldWorkForAnimal() throws Exception {
+        BaseAnimal thisMouse = new BaseAnimal();
         thisMouse.setName("Jerry");
         thisMouse.setDescription("Mouse");
         thisMouse.setColour("Brown");
@@ -27,34 +24,6 @@ public class AnimalServiceTest {
         assertThat(actual.getName()).isEqualTo(thisMouse.getName());
         assertThat(actual.getDescription()).isEqualTo(thisMouse.getDescription());
         assertThat(actual.getType()).isEqualTo(thisMouse.getType());
-    }
-
-    @Test
-    public void createShouldWorkForBird() throws Exception {
-        BaseAnimal thisBird = new Bird();
-        thisBird.setName("Crow");
-        thisBird.setDescription("A smart bird");
-        thisBird.setColour("Black");
-        thisBird.setType(AnimalType.BIRD);
-        BaseAnimal actual = service.create(thisBird);
-        assertThat(actual).isEqualTo(thisBird);
-        assertThat(actual.getName()).isEqualTo(thisBird.getName());
-        assertThat(actual.getDescription()).isEqualTo(thisBird.getDescription());
-        assertThat(actual.getType()).isEqualTo(thisBird.getType());
-    }
-
-    @Test
-    public void createShouldWorkForCat() throws Exception {
-        BaseAnimal thisCat = new Cat();
-        thisCat.setName("Tom");
-        thisCat.setDescription("The coolest cat");
-        thisCat.setColour("Black");
-        thisCat.setType(AnimalType.MAMMALS);
-        BaseAnimal actual = service.create(thisCat);
-        assertThat(actual).isEqualTo(thisCat);
-        assertThat(actual.getName()).isEqualTo(thisCat.getName());
-        assertThat(actual.getDescription()).isEqualTo(thisCat.getDescription());
-        assertThat(actual.getType()).isEqualTo(thisCat.getType());
     }
 
     @Test
@@ -71,5 +40,31 @@ public class AnimalServiceTest {
         assertThat(actual.getName()).isEqualTo(cat.getName());
         assertThat(actual.getDescription()).isEqualTo(cat.getDescription());
         assertThat(actual.getType()).isEqualTo(cat.getType());
+    }
+
+    @Test
+    public void filterShouldWork() throws Exception {
+        BaseAnimal amazingAnimal = new BaseAnimal("Blue", "great animal", "Amazing Animal", AnimalType.MAMMALS);
+        service.create(amazingAnimal);
+        BaseAnimal actual = service.get(amazingAnimal.getId());
+        assertThat(actual).isEqualTo(amazingAnimal);
+        Collection<BaseAnimal> result = service.filter(amazingAnimal.getName());
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void deleteShouldWork() throws Exception {
+        BaseAnimal deletionAnimal = new BaseAnimal("Blue", "animal to delete", "Deleted Animal", AnimalType.MAMMALS);
+        service.create(deletionAnimal);
+        BaseAnimal actual = service.get(deletionAnimal.getId());
+        assertThat(actual).isEqualTo(deletionAnimal);
+        Collection<BaseAnimal> filteredResult = service.filter(deletionAnimal.getName());
+        assertThat(filteredResult.size()).isEqualTo(1);
+
+        Boolean deletionResult = service.deleteById(deletionAnimal.getId());
+        assertThat(deletionResult).isEqualTo(true);
+
+        Collection<BaseAnimal> filteredResultPostDeletion = service.filter(deletionAnimal.getName());
+        assertThat(filteredResultPostDeletion.size()).isEqualTo(0);
     }
 }

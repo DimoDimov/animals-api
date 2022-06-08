@@ -1,9 +1,6 @@
 package cx.catapult.animals.service;
 
-import cx.catapult.animals.domain.Cat;
-import cx.catapult.animals.domain.Mouse;
-import cx.catapult.animals.domain.Bird;
-
+import cx.catapult.animals.domain.AnimalType;
 import cx.catapult.animals.domain.BaseAnimal;
 
 import org.springframework.stereotype.Service;
@@ -15,15 +12,15 @@ public class AnimalService extends BaseService<BaseAnimal> {
 
     @PostConstruct
     public void initialize() {
-        this.create(new Cat("Black", "Friend of Jerry", "Tom"));
-        this.create(new Cat("Yellow", "Bili", "Furry cat"));
-        this.create(new Cat("Grey", "Smelly", "Cat with friends"));
-        this.create(new Cat("Orange", "Tiger", "Large cat"));
-        this.create(new Cat("Orange", "Tigger", "Not a scary cat"));
-        this.create(new Cat("Orange", "Garfield", "Lazy cat"));
-        this.create(new Mouse("Brown", "Not really a cat", "Jerry"));
-        this.create(new Bird("Black", "A smart bird", "Crow"));
-        this.create(new Bird("Black and white", "A not so smart bird", "Ostrich"));
+        this.create(new BaseAnimal("Black", "Friend of Jerry", "Tom", AnimalType.MAMMALS));
+        this.create(new BaseAnimal("Yellow", "Bili", "Furry cat", AnimalType.MAMMALS));
+        this.create(new BaseAnimal("Grey", "Smelly", "Cat with friends", AnimalType.MAMMALS));
+        this.create(new BaseAnimal("Orange", "Tiger", "Large cat", AnimalType.MAMMALS));
+        this.create(new BaseAnimal("Orange", "Tigger", "Not a scary cat", AnimalType.MAMMALS));
+        this.create(new BaseAnimal("Orange", "Garfield", "Lazy cat", AnimalType.MAMMALS));
+        this.create(new BaseAnimal("Brown", "Not really a cat", "Jerry", AnimalType.MAMMALS));
+        this.create(new BaseAnimal("Black", "A smart bird", "Crow", AnimalType.BIRD));
+        this.create(new BaseAnimal("Black and white", "A not so smart bird", "Ostrich", AnimalType.BIRD));
     }
 
 }

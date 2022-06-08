@@ -29,12 +29,8 @@ public abstract class BaseService<T extends Animal> implements Service<T> {
 
     @Override
     public Boolean deleteById(String id) {
-        try {
-            items.remove(id);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        items.remove(id);
+        return true;
     }
     
     @Override

@@ -1,6 +1,8 @@
 package cx.catapult.animals.web;
 
-import cx.catapult.animals.domain.Cat;
+import cx.catapult.animals.domain.Animal;
+import cx.catapult.animals.domain.AnimalType;
+import cx.catapult.animals.domain.BaseAnimal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class AnimalControllerIT {
 
     private URL base;
 
-    private Cat cat = new Cat("Brown", "Tom", "Bob cat");
+    private BaseAnimal cat = new BaseAnimal("Brown", "Tom", "Bob cat", AnimalType.MAMMALS);
 
     @Autowired
     private TestRestTemplate template;
@@ -36,7 +38,7 @@ public class AnimalControllerIT {
 
     @Test
     public void createShouldWork() throws Exception {
-        ResponseEntity<Cat> response = template.postForEntity(base.toString(), cat, Cat.class);
+        ResponseEntity<BaseAnimal> response = template.postForEntity(base.toString(), cat, BaseAnimal.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody().getId()).isNotEmpty();
         assertThat(response.getBody().getName()).isEqualTo(cat.getName());
@@ -52,14 +54,14 @@ public class AnimalControllerIT {
 
     @Test
     public void getShouldWork() throws Exception {
-        Cat created = createCat("Test 1");
+        BaseAnimal created = createCat("Test 1");
         ResponseEntity<String> response = template.getForEntity(base.toString() + "/" + created.getId(), String.class);
         assertThat(response.getBody()).isNotEmpty();
     }
 
     @Test
     public void deleteShouldWork() throws Exception {
-        Cat created = createCat("Test 1");
+        BaseAnimal created = createCat("Test 1");
         ResponseEntity<String> responseGet = template.getForEntity(base.toString() + "/" + created.getId(),
                 String.class);
         assertThat(responseGet.getBody()).isNotEmpty();
@@ -73,7 +75,7 @@ public class AnimalControllerIT {
     
     @Test
     public void filterShouldWork() throws Exception {
-        Cat created = createCat("Test 1");
+        BaseAnimal created = createCat("Test 1");
         ResponseEntity<String> responseGet = template.getForEntity(base.toString() + "/" + created.getId(), String.class);
         assertThat(responseGet.getBody()).isNotEmpty();
         
@@ -94,8 +96,8 @@ public class AnimalControllerIT {
         assertThat(itemsGetNonExisting.size()).isEqualTo(0);
     }
 
-    Cat createCat(String name) {
-        Cat created = template.postForObject(base.toString(), new Cat(name, name, name), Cat.class);
+    BaseAnimal createCat(String name) {
+        BaseAnimal created = template.postForObject(base.toString(), new BaseAnimal(name, name, name, AnimalType.MAMMALS), BaseAnimal.class);
         assertThat(created.getId()).isNotEmpty();
         assertThat(created.getName()).isEqualTo(name);
         return created;
