@@ -37,8 +37,7 @@ public abstract class BaseService<T extends Animal> implements Service<T> {
     public Collection<T> filter(String query) {
         String queryLowered = query.toLowerCase();
         return items.values().stream()
-                .filter(i -> i.getColour().toLowerCase().contains(queryLowered)
-                        || i.getColour().toLowerCase().contains(queryLowered)
+                .filter(i -> i.getDescription().toLowerCase().contains(queryLowered)
                         || i.getName().toLowerCase().contains(queryLowered)
                         || i.getColour().toLowerCase().contains(queryLowered)
                         || i.getType().toString().toLowerCase().contains(queryLowered)

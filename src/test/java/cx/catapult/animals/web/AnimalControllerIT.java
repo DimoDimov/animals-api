@@ -75,22 +75,22 @@ public class AnimalControllerIT {
     
     @Test
     public void filterShouldWork() throws Exception {
-        BaseAnimal created = createCat("Test 1");
+        BaseAnimal created = new BaseAnimal("uniqueName", "uniqueColour", "uniqueDesc", AnimalType.AMPHIBIAN);
         ResponseEntity<String> responseGet = template.getForEntity(base.toString() + "/" + created.getId(), String.class);
         assertThat(responseGet.getBody()).isNotEmpty();
         
         Collection itemsGetColour = template.getForObject(base.toString() + "/query/" + created.getColour(),
                 Collection.class);
-        assertThat(itemsGetColour.size()).isGreaterThanOrEqualTo(1);
+        assertThat(itemsGetColour.size()).isEqualTo(1);
         
         Collection itemsGetName = template.getForObject(base.toString() + "/query/" + created.getName(), Collection.class);
-        assertThat(itemsGetName.size()).isGreaterThanOrEqualTo(1);
+        assertThat(itemsGetName.size()).isEqualTo(1);
         
         Collection itemsGetType = template.getForObject(base.toString() + "/query/" + created.getType().toString(), Collection.class);
-        assertThat(itemsGetType.size()).isGreaterThanOrEqualTo(1);
+        assertThat(itemsGetType.size()).isEqualTo(1);
         
         Collection itemsGetDescription = template.getForObject(base.toString() + "/query/" + created.getDescription(), Collection.class);
-        assertThat(itemsGetDescription.size()).isGreaterThanOrEqualTo(1);
+        assertThat(itemsGetDescription.size()).isEqualTo(1);
         
         Collection itemsGetNonExisting = template.getForObject(base.toString() + "/query/somethingelse", Collection.class);
         assertThat(itemsGetNonExisting.size()).isEqualTo(0);
