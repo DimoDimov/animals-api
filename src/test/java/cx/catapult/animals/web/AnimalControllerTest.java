@@ -1,7 +1,6 @@
 package cx.catapult.animals.web;
 
 import cx.catapult.animals.domain.AnimalType;
-import cx.catapult.animals.domain.Cat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
